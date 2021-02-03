@@ -1,16 +1,20 @@
 ﻿<Properties StartupConfiguration="{277DC8C5-E7ED-48D2-A074-78424E0D8C6C}|Default" HasHotReloadOverlayBeenDismissed="True">
   <MonoDevelop.Ide.ItemProperties.bluetoothConnect AndroidDesignerPreferredTheme="AppTheme" AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.Android_Accelerated_Nougat" />
   <MonoDevelop.Ide.ItemProperties.bluetoothConnect.Android AndroidDesignerPreferredTheme="MainTheme" FirstBuild="True" PreferredExecutionTarget="Android.Android_Accelerated_Nougat" />
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="bluetoothConnect/Properties/AndroidManifest.xml">
+    <Files>
+      <File FileName="bluetoothConnect/MainActivity.cs" Line="209" Column="31" />
+      <File FileName="bluetoothConnect/Class/bluetoothService.cs" Line="1" Column="1" />
+      <File FileName="bluetoothConnect/Properties/AndroidManifest.xml" Line="2" Column="43" />
+    </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="bluetoothConnect" expanded="True">
             <Node name="bluetoothConnect" expanded="True">
-              <Node name="Resources" expanded="True">
-                <Node name="layout" expanded="True">
-                  <Node name="activity_main.xml" selected="True" />
-                </Node>
+              <Node name="Class" expanded="True" />
+              <Node name="Properties" expanded="True">
+                <Node name="AndroidManifest.xml" selected="True" />
               </Node>
             </Node>
           </Node>

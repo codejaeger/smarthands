@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "hqPKUtEwAQ0ZRgyynIExk7EHxbJVVqsA20uFsDh/pKzLp+crJ0q3JcbcTm2xkOAPk3pBEI8sT9ZCgOhbMkNr0g==",
+  "dgSpecHash": "yTAzYrCF4LZePhwd4RtrObAMgp6R9xF0pPrupFgIyTCg6JFlgwVFOkRG+XNs2flX/DeZc3NrvQN/5eOnG9ZWVw==",
   "success": true,
-  "projectFilePath": "/Users/debabratamandal/Projects/bluetoothConnect/bluetoothConnect/bluetoothConnect.csproj",
+  "projectFilePath": "/Users/debabratamandal/sem8/ImagineCup/ImagineCup/modules/bluetoothConnect/bluetoothConnect/bluetoothConnect.csproj",
   "expectedPackageFiles": [
     "/Users/debabratamandal/.nuget/packages/xamarin.android.arch.core.common/1.1.1.3/xamarin.android.arch.core.common.1.1.1.3.nupkg.sha512",
     "/Users/debabratamandal/.nuget/packages/xamarin.android.arch.core.runtime/1.1.1.3/xamarin.android.arch.core.runtime.1.1.1.3.nupkg.sha512",

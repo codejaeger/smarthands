@@ -7,6 +7,8 @@ using Android.Content;
 using Android.Views;
 using Android.Bluetooth;
 
+using bluetoothConnect.Class.Service;
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -21,7 +23,9 @@ namespace bluetoothConnect
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
-        BluetoothConnection myConnection = new BluetoothConnection();
+
+        //BluetoothConnection myConnection = new BluetoothConnection();
+        BluetoothService myConnection;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -36,26 +40,29 @@ namespace bluetoothConnect
             Button button1On = FindViewById<Button>(Resource.Id.button3);
             TextView connected = FindViewById<TextView>(Resource.Id.textView1);
 
-            System.Threading.Thread listenThread = new System.Threading.Thread(listener);
-            listenThread.Abort();
+            //System.Threading.Thread listenThread = new System.Threading.Thread(listener);
+            //listenThread.Abort();
 
-            myConnection = new BluetoothConnection();
+            myConnection = new BluetoothService();
+            //myConnection = new BluetoothConnection();
 
             buttonConnect.Click += delegate {
 
                 //listenThread.Start();
-                
-                myConnection.getPairedDevice();
-                myConnection.Connect();
 
-                connected.Text = "Connected!";
+                //myConnection.getPairedDevice();
+                //myConnection.Connect();
+                bool res = myConnection.ConnectActivateBluetooth();
+
+                if(res)
+                    connected.Text = "Connected!";
                 buttonDisconnect.Enabled = true;
                 buttonConnect.Enabled = false;
 
-                if (listenThread.IsAlive == false)
-                {
-                    listenThread.Start();
-                }
+                //if (listenThread.IsAlive == false)
+                //{
+                //    listenThread.Start();
+                //}
             };
 
             buttonDisconnect.Click += delegate {
@@ -64,8 +71,8 @@ namespace bluetoothConnect
                 {
                     //  buttonDisconnect.Enabled = false;
                     buttonConnect.Enabled = true;
-                    listenThread.Abort();
-                    myConnection.Close();
+                    //listenThread.Abort();
+                    myConnection.cancelSocketServ();
 
                     //myConnection.thisSocket.OutputStream.WriteByte(187);
 
@@ -79,7 +86,7 @@ namespace bluetoothConnect
 
                 try
                 {
-                    myConnection.write(1);
+                    myConnection.Write(1);
                 }
                 catch (Exception outPutEX)
                 {
@@ -91,7 +98,7 @@ namespace bluetoothConnect
 
         void listener()
         {
-            byte read;
+            byte[] read = new byte[20];
 
             TextView readTextView = FindViewById<TextView>(Resource.Id.textView2);
             
@@ -99,13 +106,15 @@ namespace bluetoothConnect
             {
                 try
                 {
-                    read = myConnection.read();
+                    myConnection.ReadData(read);
                     RunOnUiThread(() =>
                     {
-                        if (read == 1)
+                        if (read[0] == 1)
                         {
                             readTextView.Text = "Relais AN";
                         }
+                        
+
                     });
                 }
                 catch { }
@@ -122,109 +131,109 @@ namespace bluetoothConnect
     }
 
 
-    public class BluetoothConnection
-    {
-        // UniqueID to connect to any device
-        private const string UuidUniverseProfile = "00001101-0000-1000-8000-00805f9b34fb";
-        // represent bluetooth data from UART
-        private BluetoothDevice result { get; set; }
-        // get input/output stream of this communication
-        private BluetoothSocket mSocket { get; set; }
-        // Convert bytes to readble string
-        private BufferedReader reader;
-        private System.IO.Stream inStream;
-        private System.IO.Stream outStream;
-        private InputStreamReader inReader;
+    //public class BluetoothConnection
+    //{
+    //    // UniqueID to connect to any device
+    //    private const string UuidUniverseProfile = "00001101-0000-1000-8000-00805f9b34fb";
+    //    // represent bluetooth data from UART
+    //    private BluetoothDevice result { get; set; }
+    //    // get input/output stream of this communication
+    //    private BluetoothSocket mSocket { get; set; }
+    //    // Convert bytes to readble string
+    //    private BufferedReader reader;
+    //    private System.IO.Stream inStream;
+    //    private System.IO.Stream outStream;
+    //    private InputStreamReader inReader;
 
-        public BluetoothConnection()
-        {
-            reader = null;
-        }
+    //    public BluetoothConnection()
+    //    {
+    //        reader = null;
+    //    }
 
-        public byte read()
-        {
-            byte[] data = new byte[1];
-            int bytesread = inStream.Read(data, 0, 1);
-            inStream.Close();
-            if (bytesread > 0)
-                return data[0];
-            else
-                return 0;
-        }
+    //    public byte read()
+    //    {
+    //        byte[] data = new byte[1];
+    //        int bytesread = inStream.Read(data, 0, 1);
+    //        inStream.Close();
+    //        if (bytesread > 0)
+    //            return data[0];
+    //        else
+    //            return 0;
+    //    }
 
-        public void write(byte data)
-        {
-            outStream.WriteByte(data);
-            outStream.Close();
-        }
+    //    public void write(byte data)
+    //    {
+    //        outStream.WriteByte(data);
+    //        outStream.Close();
+    //    }
 
-        private UUID _getUUIDFromString()
-        {
-            return UUID.FromString(UuidUniverseProfile);
-        }
+    //    private UUID _getUUIDFromString()
+    //    {
+    //        return UUID.FromString(UuidUniverseProfile);
+    //    }
 
-        private void _close(IDisposable aConnectedObject)
-        {
-            if (aConnectedObject == null) return;
-            try
-            {
-                aConnectedObject.Dispose();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            aConnectedObject = null;
-        }
+    //    private void _close(IDisposable aConnectedObject)
+    //    {
+    //        if (aConnectedObject == null) return;
+    //        try
+    //        {
+    //            aConnectedObject.Dispose();
+    //        }
+    //        catch (Exception)
+    //        {
+    //            throw;
+    //        }
+    //        aConnectedObject = null;
+    //    }
 
-        private void _openDeviceConnection(BluetoothDevice btDevice)
-        {
-            try
-            {
-                mSocket = btDevice.CreateRfcommSocketToServiceRecord(_getUUIDFromString());
-                mSocket.Connect();
-                inStream = mSocket.InputStream;
-                outStream = mSocket.OutputStream;
-                inReader = new InputStreamReader(inStream);
+    //    private void _openDeviceConnection(BluetoothDevice btDevice)
+    //    {
+    //        try
+    //        {
+    //            mSocket = btDevice.CreateRfcommSocketToServiceRecord(_getUUIDFromString());
+    //            mSocket.Connect();
+    //            inStream = mSocket.InputStream;
+    //            outStream = mSocket.OutputStream;
+    //            inReader = new InputStreamReader(inStream);
                 
-            }
-            catch(IOException e)
-            {
-                Close();
-                throw e;
-            }
-        }
+    //        }
+    //        catch(IOException e)
+    //        {
+    //            Close();
+    //            throw e;
+    //        }
+    //    }
 
-        public void Close()
-        {
-            _close(mSocket);
-            _close(inStream);
-            _close(outStream);
-            _close(inReader);
-        }
+    //    public void Close()
+    //    {
+    //        _close(mSocket);
+    //        _close(inStream);
+    //        _close(outStream);
+    //        _close(inReader);
+    //    }
 
 
-        public void getPairedDevice()
-        {
-            BluetoothAdapter btAdapter = BluetoothAdapter.DefaultAdapter;
-            var devices = btAdapter.BondedDevices;
-            if(devices != null && devices.Count() > 0)
-            {
-                foreach (BluetoothDevice mDevice in devices)
-                {
-                    if (mDevice.Name == "HC-05")
-                    {
-                        result = mDevice;
-                        break;
-                    }
-                }
-            }
-        }
+    //    public void getPairedDevice()
+    //    {
+    //        BluetoothAdapter btAdapter = BluetoothAdapter.
+    //        var devices = btAdapter.BondedDevices;
+    //        if(devices != null && devices.Count() > 0)
+    //        {
+    //            foreach (BluetoothDevice mDevice in devices)
+    //            {
+    //                if (mDevice.Name == "HC-05")
+    //                {
+    //                    result = mDevice;
+    //                    break;
+    //                }
+    //            }
+    //        }
+    //    }
 
-        public void Connect()
-        {
-            _openDeviceConnection(result);
-        }
+    //    public void Connect()
+    //    {
+    //        _openDeviceConnection(result);
+    //    }
 
-    }
+    //}
 }

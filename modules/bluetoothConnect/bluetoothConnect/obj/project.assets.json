@@ -1489,11 +1489,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/debabratamandal/Projects/bluetoothConnect/bluetoothConnect/bluetoothConnect.csproj",
+      "projectUniqueName": "/Users/debabratamandal/sem8/ImagineCup/ImagineCup/modules/bluetoothConnect/bluetoothConnect/bluetoothConnect.csproj",
       "projectName": "bluetoothConnect",
-      "projectPath": "/Users/debabratamandal/Projects/bluetoothConnect/bluetoothConnect/bluetoothConnect.csproj",
+      "projectPath": "/Users/debabratamandal/sem8/ImagineCup/ImagineCup/modules/bluetoothConnect/bluetoothConnect/bluetoothConnect.csproj",
       "packagesPath": "/Users/debabratamandal/.nuget/packages/",
-      "outputPath": "/Users/debabratamandal/Projects/bluetoothConnect/bluetoothConnect/obj/",
+      "outputPath": "/Users/debabratamandal/sem8/ImagineCup/ImagineCup/modules/bluetoothConnect/bluetoothConnect/obj/",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "configFilePaths": [
