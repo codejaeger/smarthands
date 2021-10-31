@@ -36,4 +36,9 @@ This project is open source now and any contributions are immensely welcome.
 
 ## Instructions to use and test
 
-Coming up.
+### Requirements
+
+* Arduino Nano microprocessor board
+* Visual Studio
+* Android device (version > 5.0)
+* Microsoft Azure services
